@@ -166,7 +166,7 @@ public class EmployeesDao {
             pst.execute();
             return true;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "It cannot be deleted that I have a relationship with another table");
+            JOptionPane.showMessageDialog(null, "You cannot delete a client that has a relationship with another table");
             return false;
         }
     }

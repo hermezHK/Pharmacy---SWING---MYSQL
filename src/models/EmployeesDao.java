@@ -66,9 +66,10 @@ public class EmployeesDao {
                 rol_user = employee.getRol();
             }
 
-        } catch (Exception e) {
-
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "error getting employee " + e);
         }
+        return employee;
     }
 
     //register employee

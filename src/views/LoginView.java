@@ -4,17 +4,25 @@
  */
 package views;
 
+import controllers.LoginController;
+import models.Employees;
+import models.EmployeesDao;
+
 /**
  *
  * @author akira
  */
 public class LoginView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginView
-     */
+    Employees employee = new Employees();
+    EmployeesDao employee_dao = new EmployeesDao();
+    
     public LoginView() {
         initComponents();
+        
+       //Controller login
+       LoginController employee_login = new LoginController(employee, employee_dao, this);
+       
         setSize(930, 415);
         setResizable(false);
         setTitle("Sign In");

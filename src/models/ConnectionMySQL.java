@@ -17,7 +17,7 @@ public class ConnectionMySQL {
     private String database_name = "pharmacy_database";
     private String user = "root";
     private String password = "root";
-    private String url = "jdbc:mysql://locahost:3306/" + database_name;
+    private String url = "jdbc:mysql://0.0.0.0:3306/" + database_name;
     Connection conn = null;
 
     public Connection getConnection() {

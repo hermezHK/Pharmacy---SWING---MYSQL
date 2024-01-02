@@ -4,7 +4,10 @@
  */
 package views;
 
+import controllers.EmployeesController;
 import controllers.SettingsController;
+import models.Employees;
+import models.EmployeesDao;
 
 /**
  *
@@ -12,9 +15,10 @@ import controllers.SettingsController;
  */
 public class SystemView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SytemView
-     */
+    //instance Employees
+    Employees employee = new Employees();
+    EmployeesDao employeesDao = new EmployeesDao();
+    
     public SystemView() {
         initComponents();
         setSize(1208, 680);
@@ -25,6 +29,10 @@ public class SystemView extends javax.swing.JFrame {
         //controller settings
         SettingsController setting = new SettingsController(this);
         this.repaint();
+        
+        //controller employees
+        EmployeesController employee_account = new EmployeesController(employee, employeesDao, this);
+        
     }
 
     /**

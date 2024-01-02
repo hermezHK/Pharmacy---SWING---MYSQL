@@ -32,6 +32,7 @@ public class SystemView extends javax.swing.JFrame {
         
         //controller employees
         EmployeesController employee_account = new EmployeesController(employee, employeesDao, this);
+        employee_account.listAllEmployees();
         
     }
 
@@ -191,7 +192,7 @@ public class SystemView extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         txt_search_employee = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        employees_table = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel33 = new javax.swing.JLabel();
@@ -1270,7 +1271,7 @@ public class SystemView extends javax.swing.JFrame {
         jPanel7.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 70, 30));
         jPanel7.add(txt_search_employee, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 330, 160, 30));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        employees_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -1286,7 +1287,7 @@ public class SystemView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(employees_table);
 
         jPanel7.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 920, 90));
 
@@ -1818,6 +1819,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> cmb_rol;
     public javax.swing.JComboBox<String> cmb_supplier_city;
     public javax.swing.JTable customers_table;
+    public javax.swing.JTable employees_table;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1932,7 +1934,6 @@ public class SystemView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     public javax.swing.JTabbedPane jTabbedPane1;
-    public javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
@@ -1983,7 +1984,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JTextField txt_sale_total_to_pay;
     public javax.swing.JTextField txt_search_category;
     public javax.swing.JTextField txt_search_customer;
-    private javax.swing.JTextField txt_search_employee;
+    public javax.swing.JTextField txt_search_employee;
     private javax.swing.JTextField txt_search_product;
     public javax.swing.JTextField txt_search_supplier;
     public javax.swing.JTextField txt_supplier_address;

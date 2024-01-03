@@ -70,7 +70,7 @@ public class EmployeesController implements ActionListener, MouseListener, KeyLi
 
                 if (employeeDao.registerEmployeeQuery(employee)) {
                     cleanTable();
-                    JOptionPane.showInternalMessageDialog(null, "successfully registered employee");
+                    JOptionPane.showMessageDialog(null, "successfully registered employee");
                 } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while registering the employee");
                 }
@@ -113,7 +113,7 @@ public class EmployeesController implements ActionListener, MouseListener, KeyLi
             
             //disable
             views.txt_employee_id.setEditable(false);
-            views.txt_employee_password.setEditable(false);
+            views.txt_employee_password.setEnabled(false);
             views.btn_register_employee.setEnabled(false);
         }
     }

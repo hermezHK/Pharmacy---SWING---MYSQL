@@ -82,10 +82,10 @@ public class CustomersDao {
         }
         return list_customers;
     }
-    
+
     //updated client
     public boolean updateCustomerQuery(Customers customer) {
-        String query = "UPDATE customers SET full_name, = ? address = ?, telephone = ?, email = ?, updated = ? "
+        String query = "UPDATE customers SET full_name = ?, address = ?, telephone = ?, email = ?, updated = ? "
                 + "WHERE id = ?";
 
         Timestamp datetime = new Timestamp(new Date().getTime());
@@ -106,19 +106,19 @@ public class CustomersDao {
             return false;
         }
     }
-    
+
     //delete client 
-    public boolean deleteCustomerQuery(int id){
+    public boolean deleteCustomerQuery(int id) {
         String query = "DELETE FROM customers WHERE id = " + id;
-        try{
+        try {
             conn = cn.getConnection();
             pst = conn.prepareStatement(query);
             pst.execute();
             return true;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "You cannot delete a client that has a relationship with another table");
             return false;
         }
     }
-    
+
 }

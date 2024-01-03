@@ -7,12 +7,15 @@ package views;
 import controllers.CustomersController;
 import controllers.EmployeesController;
 import controllers.SettingsController;
+import controllers.SuppliersController;
 import models.Customers;
 import models.CustomersDao;
 import models.Employees;
 import models.EmployeesDao;
 import static models.EmployeesDao.full_name_user;
 import static models.EmployeesDao.rol_user;
+import models.Suppliers;
+import models.SuppliersDao;
 
 /**
  *
@@ -27,6 +30,10 @@ public class SystemView extends javax.swing.JFrame {
     //instance Customers
     Customers customer = new Customers();
     CustomersDao customersDao = new CustomersDao();
+    
+    //instance supplier
+    Suppliers supplier = new Suppliers();
+    SuppliersDao supplierDao = new SuppliersDao();
 
     public SystemView() {
         initComponents();
@@ -46,6 +53,9 @@ public class SystemView extends javax.swing.JFrame {
         //controller customers
         CustomersController customer_account = new CustomersController(customer, customersDao, this);
         customer_account.listAllCustomers();
+        
+        //controller supplier
+        SuppliersController supplier_account = new SuppliersController(supplier, supplierDao, this);
         
     }
 

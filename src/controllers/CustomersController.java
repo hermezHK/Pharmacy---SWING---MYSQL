@@ -37,6 +37,9 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
         //button register customer
         this.views.btn_register_customer.addActionListener(this);
 
+        //button modify customer
+        this.views.btn_update_customer.addActionListener(this);
+
         //Search button customer
         this.views.txt_search_customer.addKeyListener(this);
 
@@ -64,13 +67,47 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
                 customer.setEmail(views.txt_customer_email.getText().trim());
 
                 if (customerDao.registerCustomerQuery(customer)) {
-                    
+
                     cleanTable();
                     listAllCustomers();
-                    
+
                     JOptionPane.showMessageDialog(null, "successfully registered customer");
                 } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while registering client");
+                }
+            }
+        } else if (e.getSource() == views.btn_update_customer) {
+            if (views.txt_customer_id.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "select a row to continue");
+
+            } else {
+                if (views.txt_customer_id.getText().equals("")
+                        || views.txt_customer_fullname.getText().equals("")
+                        || views.txt_customer_address.getText().equals("")
+                        || views.txt_customer_telephone.getText().equals("")
+                        || views.txt_customer_email.getText().equals("")) {
+
+                    JOptionPane.showMessageDialog(null, "All fields are required");
+
+                } else {
+                    customer.setId(Integer.parseInt(views.txt_customer_id.getText().trim()));
+                    customer.setFull_name(views.txt_customer_fullname.getText().trim());
+                    customer.setAddress(views.txt_customer_address.getText().trim());
+                    customer.setTelephone(views.txt_customer_telephone.getText().trim());
+                    customer.setEmail(views.txt_customer_email.getText().trim());
+
+                    if (customerDao.updateCustomerQuery(customer)) {
+
+                        cleanTable();
+                        cleanFields();
+                        listAllCustomers();
+
+                        views.btn_register_customer.setEnabled(true);
+
+                        JOptionPane.showMessageDialog(null, "data modified successfully");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "An error occurred while modifying the client");
+                    }
                 }
             }
         }
@@ -150,6 +187,16 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
             cleanTable();
             listAllCustomers();
         }
+    }
+
+    //cleanfields
+    public void cleanFields() {
+        views.txt_customer_id.setText("");
+        views.txt_customer_id.setEditable(true);
+        views.txt_customer_fullname.setText("");
+        views.txt_customer_address.setText("");
+        views.txt_customer_telephone.setText("");
+        views.txt_customer_email.setText("");
     }
 
     //cleantable

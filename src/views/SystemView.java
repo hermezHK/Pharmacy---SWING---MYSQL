@@ -23,13 +23,11 @@ public class SystemView extends javax.swing.JFrame {
     //instance Employees
     Employees employee = new Employees();
     EmployeesDao employeesDao = new EmployeesDao();
-    
+
     //instance Customers
     Customers customer = new Customers();
     CustomersDao customersDao = new CustomersDao();
-    
-    
-    
+
     public SystemView() {
         initComponents();
         setSize(1208, 680);
@@ -40,17 +38,18 @@ public class SystemView extends javax.swing.JFrame {
         //controller settings
         SettingsController setting = new SettingsController(this);
         this.repaint();
-        
+
         //controller employees
         EmployeesController employee_account = new EmployeesController(employee, employeesDao, this);
         employee_account.listAllEmployees();
-        
+
         //controller customers
         CustomersController customer_account = new CustomersController(customer, customersDao, this);
+        customer_account.listAllCustomers();
         
     }
-    
-    public String titleInterface(){
+
+    public String titleInterface() {
         setTitle("Panel - " + rol_user);
         label_name_employee.setText(full_name_user);
         label_name_rol.setText(rol_user);
@@ -1123,11 +1122,11 @@ public class SystemView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Identification", "Name", "Telephone", "Email"
+                "Identification", "Name", "Address", "Telephone", "Email"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1771,7 +1770,7 @@ public class SystemView extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_employee_idActionPerformed
 
     private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
-        if(evt.getSource() == btn_logout){
+        if (evt.getSource() == btn_logout) {
             dispose();
             LoginView login = new LoginView();
             login.setVisible(true);

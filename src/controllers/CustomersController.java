@@ -40,8 +40,17 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
         //button modify customer
         this.views.btn_update_customer.addActionListener(this);
 
+        //button dellete customer
+        this.views.btn_delete_customer.addActionListener(this);
+
+        //button cancel customer
+        this.views.btn_cancel_customer.addActionListener(this);
+
         //Search button customer
         this.views.txt_search_customer.addKeyListener(this);
+
+        //label listening
+        this.views.jLabelCustomers.addMouseListener(this);
 
         this.views.customers_table.addMouseListener(this);
 
@@ -110,6 +119,30 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
                     }
                 }
             }
+        } else if (e.getSource() == views.btn_delete_customer) {
+            int row = views.customers_table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "select a customer to delete");
+            } else {
+                int id = Integer.parseInt(views.customers_table.getValueAt(row, 0).toString());
+                int question = JOptionPane.showConfirmDialog(null, "Are you sure to eliminate the customer?");
+
+                if (question == 0 && customerDao.deleteCustomerQuery(id) != false) {
+                    cleanTable();
+                    cleanFields();
+
+                    views.btn_register_customer.setEnabled(true);
+
+                    listAllCustomers();
+
+                    JOptionPane.showMessageDialog(null, "customer successfully deleted");
+
+                }
+            }
+        } else if (e.getSource() == views.btn_cancel_customer) {
+            views.btn_register_customer.setEnabled(true);
+
+            cleanFields();
         }
     }
 
@@ -145,6 +178,18 @@ public class CustomersController implements ActionListener, MouseListener, KeyLi
             //disable buttons
             views.btn_register_customer.setEnabled(false);
             views.txt_customer_id.setEditable(false);
+            
+        }else if(e.getSource() == views.jLabelCustomers){
+            views.jTabbedPane1.setSelectedIndex(3);
+            
+            //clean table
+            cleanTable();
+            
+            //cleanfields
+            cleanFields();
+            
+            //list customer
+            listAllCustomers();
         }
     }
 

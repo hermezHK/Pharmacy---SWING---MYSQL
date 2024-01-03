@@ -8,6 +8,8 @@ import controllers.EmployeesController;
 import controllers.SettingsController;
 import models.Employees;
 import models.EmployeesDao;
+import static models.EmployeesDao.full_name_user;
+import static models.EmployeesDao.rol_user;
 
 /**
  *
@@ -23,8 +25,8 @@ public class SystemView extends javax.swing.JFrame {
         initComponents();
         setSize(1208, 680);
         setResizable(false);
-        setTitle("Admin Panel");
         setLocationRelativeTo(null);
+        titleInterface();
 
         //controller settings
         SettingsController setting = new SettingsController(this);
@@ -34,6 +36,13 @@ public class SystemView extends javax.swing.JFrame {
         EmployeesController employee_account = new EmployeesController(employee, employeesDao, this);
         employee_account.listAllEmployees();
         
+    }
+    
+    public String titleInterface(){
+        setTitle("Panel - " + rol_user);
+        label_name_employee.setText(full_name_user);
+        label_name_rol.setText(rol_user);
+        return rol_user.trim();
     }
 
     /**
@@ -72,6 +81,8 @@ public class SystemView extends javax.swing.JFrame {
         btn_photo = new javax.swing.JButton();
         btn_logout = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        label_name_employee = new javax.swing.JLabel();
+        label_name_rol = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
@@ -237,16 +248,16 @@ public class SystemView extends javax.swing.JFrame {
         jLabel47 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txt_id_profile = new javax.swing.JTextField();
+        txt_name_profile = new javax.swing.JTextField();
+        txt_address_profile = new javax.swing.JTextField();
+        txt_phone_profile = new javax.swing.JTextField();
+        txt_email_profile = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        txt_password_modify = new javax.swing.JPasswordField();
+        txt_password_modify_confirm = new javax.swing.JPasswordField();
+        btn_modify_data = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jLabel44 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
@@ -503,6 +514,14 @@ public class SystemView extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Natural Life Pharmacy");
         jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 340, 60));
+
+        label_name_employee.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_name_employee.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel3.add(label_name_employee, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 30, 120, 20));
+
+        label_name_rol.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        label_name_rol.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel3.add(label_name_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 120, 20));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 1010, 100));
 
@@ -1571,11 +1590,11 @@ public class SystemView extends javax.swing.JFrame {
         jLabel51.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel51.setText("Confirm Password:");
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_modify_data.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btn_modify_data.setText("Update");
+        btn_modify_data.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_modify_dataActionPerformed(evt);
             }
         });
 
@@ -1598,17 +1617,17 @@ public class SystemView extends javax.swing.JFrame {
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txt_phone_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_address_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_email_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel18Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txt_id_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel18Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txt_name_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(46, 46, 46)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel50)
@@ -1616,12 +1635,12 @@ public class SystemView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_password_modify_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(238, Short.MAX_VALUE))
                     .addGroup(jPanel18Layout.createSequentialGroup()
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_password_modify, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_modify_data, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34))))
         );
         jPanel18Layout.setVerticalGroup(
@@ -1630,28 +1649,28 @@ public class SystemView extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel45)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_id_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel50)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(txt_password_modify, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_modify_data))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel46)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txt_name_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel51)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_password_modify_confirm, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel47)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_address_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel48)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_phone_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel49)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txt_email_profile, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
@@ -1719,9 +1738,9 @@ public class SystemView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_modify_dataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modify_dataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_modify_dataActionPerformed
 
     private void btn_update_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_update_categoryActionPerformed
         // TODO add your handling code here:
@@ -1798,6 +1817,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JButton btn_delete_product;
     public javax.swing.JButton btn_delete_supplier;
     private javax.swing.JButton btn_logout;
+    public javax.swing.JButton btn_modify_data;
     public javax.swing.JButton btn_new_purchase;
     public javax.swing.JButton btn_new_sale;
     private javax.swing.JButton btn_photo;
@@ -1820,7 +1840,6 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> cmb_supplier_city;
     public javax.swing.JTable customers_table;
     public javax.swing.JTable employees_table;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1921,8 +1940,6 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JPanel jPanelSales;
     public javax.swing.JPanel jPanelSettings;
     public javax.swing.JPanel jPanelSuppliers;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1935,17 +1952,15 @@ public class SystemView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     public javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    public javax.swing.JLabel label_name_employee;
+    public javax.swing.JLabel label_name_rol;
     public javax.swing.JTable products_table;
     public javax.swing.JTable purchases_table;
     public javax.swing.JTable sales_table;
     public javax.swing.JTable suppliers_table;
     private javax.swing.JTable table_all_purchases;
     public javax.swing.JTable table_all_sales;
+    public javax.swing.JTextField txt_address_profile;
     public javax.swing.JTextField txt_category_id;
     public javax.swing.JTextField txt_category_name;
     public javax.swing.JTextField txt_customer_address;
@@ -1953,6 +1968,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JTextField txt_customer_fullname;
     public javax.swing.JTextField txt_customer_id;
     public javax.swing.JTextField txt_customer_telephone;
+    public javax.swing.JTextField txt_email_profile;
     public javax.swing.JTextField txt_employee_address;
     public javax.swing.JTextField txt_employee_email;
     public javax.swing.JTextField txt_employee_fullname;
@@ -1960,6 +1976,11 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JPasswordField txt_employee_password;
     public javax.swing.JTextField txt_employee_telephone;
     public javax.swing.JTextField txt_employee_username;
+    public javax.swing.JTextField txt_id_profile;
+    public javax.swing.JTextField txt_name_profile;
+    public javax.swing.JPasswordField txt_password_modify;
+    public javax.swing.JPasswordField txt_password_modify_confirm;
+    public javax.swing.JTextField txt_phone_profile;
     public javax.swing.JTextField txt_product_code;
     public javax.swing.JTextField txt_product_description;
     public javax.swing.JTextField txt_product_id;

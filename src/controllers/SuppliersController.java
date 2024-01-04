@@ -41,10 +41,17 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
 
         //button modify supplier
         this.views.btn_update_supplier.addActionListener(this);
+        
+        //button delete supplier
+        this.views.btn_delete_supplier.addActionListener(this);
+        
+        //button cancel supplier
+        this.views.btn_cancel_supplier.addActionListener(this);
 
         //label listening
         this.views.suppliers_table.addMouseListener(this);
         this.views.txt_search_supplier.addKeyListener(this);
+        this.views.jLabelSuppliers.addMouseListener(this);
     }
 
     @Override
@@ -71,6 +78,7 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
                 if (supplierDao.registerSupplierQuery(supplier)) {
 
                     cleanTable();
+                    cleanFields();
                     listAllSupplier();
 
                     JOptionPane.showMessageDialog(null, "successfully registered supplier");
@@ -108,6 +116,7 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
                         cleanFields();
                         //list supplier
                         listAllSupplier();
+                        views.btn_register_supplier.setEnabled(true);
 
                         JOptionPane.showMessageDialog(null, "successfully registered supplier");
                     } else {
@@ -115,6 +124,29 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
                     }
                 }
             }
+        }else if(e.getSource() == views.btn_delete_supplier){
+            int row = views.suppliers_table.getSelectedRow();
+            if(row == -1){
+                JOptionPane.showMessageDialog(null, "select an supplier to delete");
+            }else {
+                int id = Integer.parseInt(views.suppliers_table.getValueAt(row, 0).toString());
+                int question = JOptionPane.showConfirmDialog(null, "Are you sure to eliminate the supplier?");
+                if(question == 0 && supplierDao.deleteSupplierQuery(id) != false){
+                    
+                    //clean table
+                    cleanTable();
+                    //clean fields
+                    cleanFields();
+                    //list supplier
+                    listAllSupplier();
+                    
+                    
+                    JOptionPane.showMessageDialog(null, "supplier successfully deleted");
+                }
+            }
+        }else if(e.getSource() == views.btn_cancel_supplier){
+            cleanFields();
+            views.btn_register_supplier.setEnabled(true);
         }
     }
 
@@ -153,6 +185,23 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
             //disable button
             views.btn_register_supplier.setEnabled(false);
             views.txt_supplier_id.setEditable(false);
+            
+        }else if(e.getSource() == views.jLabelSuppliers){
+            if(rol.equals("Admin")){
+               views.jTabbedPane1.setSelectedIndex(5);
+               
+               //clean table
+               cleanTable();
+               //clean fields
+               cleanFields();
+               //list supplier
+               listAllSupplier();
+               
+            }else {
+                views.jTabbedPane1.setEnabledAt(5, false);
+                views.jLabelSuppliers.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "You do not have permission to access this view");
+            }
         }
     }
 

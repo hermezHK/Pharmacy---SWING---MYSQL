@@ -40,7 +40,7 @@ public class SystemView extends javax.swing.JFrame {
     
     //instance category
     Categories category = new Categories();
-    CategoriesDao categoriesDao = new CategoriesDao();
+    CategoriesDao categoryDao = new CategoriesDao();
 
     public SystemView() {
         initComponents();
@@ -66,8 +66,8 @@ public class SystemView extends javax.swing.JFrame {
         supplier_account.listAllSupplier();
         
         //controller category
-        CategoriesController category_section = new CategoriesController(category, categoriesDao, this);
-        
+        CategoriesController category_section = new CategoriesController(category, categoryDao, this);
+        category_section.listAllCategories();
     }
 
     public String titleInterface() {

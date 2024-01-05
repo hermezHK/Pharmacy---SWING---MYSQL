@@ -28,7 +28,7 @@ public class CategoriesDao {
 
     //register categories
     public boolean registerCategoryQuery(Categories category) {
-        String query = "INSERT INTO categories (name, created, updated) VALUES (?,?,?)";
+        String query = "INSERT INTO categories (name, created, updated)" + "VALUES(?,?,?)";
         Timestamp datetime = new Timestamp(new Date().getTime());
 
         try {
@@ -41,7 +41,7 @@ public class CategoriesDao {
             return true;
 
         } catch (SQLException e) {
-            JOptionPane.showInternalMessageDialog(null, "error when registering the category");
+            JOptionPane.showMessageDialog(null, "error when registering the category" + e);
             return false;
         }
     }
@@ -62,7 +62,7 @@ public class CategoriesDao {
                 rs = pst.executeQuery();
             }
 
-            while (rs.next()) {
+            while(rs.next()) {
                 Categories category = new Categories();
                 category.setId(rs.getInt("id"));
                 category.setName(rs.getString("name"));
@@ -70,7 +70,7 @@ public class CategoriesDao {
             }
 
         } catch (SQLException e) {
-            JOptionPane.showInternalMessageDialog(null, e.toString());
+            JOptionPane.showMessageDialog(null, e.toString());
         }
         return list_categories;
     }

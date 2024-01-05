@@ -4,10 +4,13 @@
  */
 package views;
 
+import controllers.CategoriesController;
 import controllers.CustomersController;
 import controllers.EmployeesController;
 import controllers.SettingsController;
 import controllers.SuppliersController;
+import models.Categories;
+import models.CategoriesDao;
 import models.Customers;
 import models.CustomersDao;
 import models.Employees;
@@ -34,6 +37,10 @@ public class SystemView extends javax.swing.JFrame {
     //instance supplier
     Suppliers supplier = new Suppliers();
     SuppliersDao supplierDao = new SuppliersDao();
+    
+    //instance category
+    Categories category = new Categories();
+    CategoriesDao categoriesDao = new CategoriesDao();
 
     public SystemView() {
         initComponents();
@@ -57,6 +64,9 @@ public class SystemView extends javax.swing.JFrame {
         //controller supplier
         SuppliersController supplier_account = new SuppliersController(supplier, supplierDao, this);
         supplier_account.listAllSupplier();
+        
+        //controller category
+        CategoriesController category_section = new CategoriesController(category, categoriesDao, this);
         
     }
 
@@ -1941,7 +1951,7 @@ public class SystemView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     public javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
+    public javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JPanel jPanel20;

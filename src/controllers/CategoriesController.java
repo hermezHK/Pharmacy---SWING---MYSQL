@@ -38,6 +38,9 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
 
         //button register category
         this.views.btn_register_category.addActionListener(this);
+        
+        //button modify category
+        this.views.btn_update_category.addActionListener(this);
 
         this.views.categories_table.addMouseListener(this);
         this.views.txt_search_category.addKeyListener(this);
@@ -52,11 +55,35 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
                 category.setName(views.txt_category_name.getText().trim());
 
                 if (categoryDao.registerCategoryQuery(category)) {
+                    
                     cleanTable();
+                    cleanFields();
                     listAllCategories();
+                    
                     JOptionPane.showMessageDialog(null, "successfully registered category");
                 } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while registering the category");
+                }
+            }
+        }else if(e.getSource() == views.btn_update_category){
+            if(views.txt_category_id.getText().equals("")){
+                JOptionPane.showMessageDialog(null, "select a row to continue");
+            }else {
+                if(views.txt_category_id.getText().equals("")
+                        || views.txt_category_name.getText().equals("")){
+                
+                    JOptionPane.showMessageDialog(null, "All fields are required");
+                }else {
+                    category.setId(Integer.parseInt(views.txt_category_id.getText()));
+                    category.setName(views.txt_category_name.getText().trim());
+                    
+                    if(categoryDao.updateCategoryQuery(category)){
+                        
+                        cleanTable();
+                        cleanFields();
+                        views.btn_register_category.setEnabled(true);
+                        listAllCategories();
+                    }
                 }
             }
         }
@@ -136,6 +163,12 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
             model.removeRow(i);
             i = i - 1;
         }
+    }
+    
+    public void cleanFields(){
+        views.txt_category_id.setText("");
+        views.txt_category_name.setText("");
+        
     }
 
 }

@@ -7,6 +7,7 @@ package views;
 import controllers.CategoriesController;
 import controllers.CustomersController;
 import controllers.EmployeesController;
+import controllers.ProductsController;
 import controllers.SettingsController;
 import controllers.SuppliersController;
 import models.Categories;
@@ -17,6 +18,8 @@ import models.Employees;
 import models.EmployeesDao;
 import static models.EmployeesDao.full_name_user;
 import static models.EmployeesDao.rol_user;
+import models.Products;
+import models.ProductsDao;
 import models.Suppliers;
 import models.SuppliersDao;
 
@@ -41,6 +44,11 @@ public class SystemView extends javax.swing.JFrame {
     //instance category
     Categories category = new Categories();
     CategoriesDao categoryDao = new CategoriesDao();
+    
+    //instance product
+    Products product = new Products();
+    ProductsDao productDao = new ProductsDao();
+    
 
     public SystemView() {
         initComponents();
@@ -68,6 +76,11 @@ public class SystemView extends javax.swing.JFrame {
         //controller category
         CategoriesController category_section = new CategoriesController(category, categoryDao, this);
         category_section.listAllCategories();
+        
+        //controller product
+        ProductsController product_section = new ProductsController(product, productDao, this);
+        
+        
     }
 
     public String titleInterface() {
@@ -573,8 +586,6 @@ public class SystemView extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setText("Sale Price:");
-
-        txt_product_name.setEditable(false);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setText("Description:");
@@ -1549,10 +1560,9 @@ public class SystemView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_cancel_category, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                    .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btn_delete_category, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                        .addComponent(btn_register_category, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                        .addComponent(btn_update_category, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btn_delete_category, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(btn_register_category, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                    .addComponent(btn_update_category, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(35, 35, 35))
         );
         jPanel17Layout.setVerticalGroup(

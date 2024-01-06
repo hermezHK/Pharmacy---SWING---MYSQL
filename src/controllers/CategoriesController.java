@@ -15,7 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.Categories;
 import models.CategoriesDao;
+import models.DynamicComboBox;
 import static models.EmployeesDao.rol_user;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import views.SystemView;
 
 /**
@@ -52,6 +54,8 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
         this.views.categories_table.addMouseListener(this);
         this.views.txt_search_category.addKeyListener(this);
         this.views.jLabelCategories.addMouseListener(this);
+        getCategoryName();
+        AutoCompleteDecorator.decorate(views.cmb_product_category);
     }
 
     @Override
@@ -209,6 +213,16 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
         views.txt_category_id.setText("");
         views.txt_category_name.setText("");
 
+    }
+    
+    //method to display the name of the categories
+    public void getCategoryName(){
+        List<Categories> list = categoryDao.listCategoriesQuery(views.txt_search_category.getText());
+        for(int i = 0; i < list.size(); i++){
+            int id = list.get(i).getId();
+            String name = list.get(i).getName();
+            views.cmb_product_category.addItem(new DynamicComboBox(id, name));
+        }
     }
 
 }

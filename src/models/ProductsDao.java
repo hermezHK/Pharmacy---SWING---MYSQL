@@ -47,7 +47,7 @@ public class ProductsDao {
             return true;
 
         } catch (SQLException e) {
-            JOptionPane.showInternalMessageDialog(null, "error when registering the product");
+            JOptionPane.showInternalMessageDialog(null, "error when registering the product" + e);
             return false;
         }
     }

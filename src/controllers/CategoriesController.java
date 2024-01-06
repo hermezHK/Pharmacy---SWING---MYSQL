@@ -38,12 +38,20 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
 
         //button register category
         this.views.btn_register_category.addActionListener(this);
-        
+
         //button modify category
         this.views.btn_update_category.addActionListener(this);
 
+        //button delete category 
+        this.views.btn_delete_category.addActionListener(this);
+        
+        //button cancel
+        this.views.btn_cancel_category.addActionListener(this);
+
+        //label listening
         this.views.categories_table.addMouseListener(this);
         this.views.txt_search_category.addKeyListener(this);
+        this.views.jLabelCategories.addMouseListener(this);
     }
 
     @Override
@@ -55,30 +63,30 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
                 category.setName(views.txt_category_name.getText().trim());
 
                 if (categoryDao.registerCategoryQuery(category)) {
-                    
+
                     cleanTable();
                     cleanFields();
                     listAllCategories();
-                    
+
                     JOptionPane.showMessageDialog(null, "successfully registered category");
                 } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while registering the category");
                 }
             }
-        }else if(e.getSource() == views.btn_update_category){
-            if(views.txt_category_id.getText().equals("")){
+        } else if (e.getSource() == views.btn_update_category) {
+            if (views.txt_category_id.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "select a row to continue");
-            }else {
-                if(views.txt_category_id.getText().equals("")
-                        || views.txt_category_name.getText().equals("")){
-                
+            } else {
+                if (views.txt_category_id.getText().equals("")
+                        || views.txt_category_name.getText().equals("")) {
+
                     JOptionPane.showMessageDialog(null, "All fields are required");
-                }else {
+                } else {
                     category.setId(Integer.parseInt(views.txt_category_id.getText()));
                     category.setName(views.txt_category_name.getText().trim());
-                    
-                    if(categoryDao.updateCategoryQuery(category)){
-                        
+
+                    if (categoryDao.updateCategoryQuery(category)) {
+
                         cleanTable();
                         cleanFields();
                         views.btn_register_category.setEnabled(true);
@@ -87,10 +95,30 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
                     }
                 }
             }
+        } else if (e.getSource() == views.btn_delete_category) {
+            int row = views.categories_table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "select an category to delete");
+            } else {
+                int id = Integer.parseInt(views.categories_table.getValueAt(row, 0).toString());
+                int question = JOptionPane.showConfirmDialog(null, "Are you sure to eliminate the category?");
+
+                if (question == 0 && categoryDao.deleteCategoryQuery(id) != false) {
+                    cleanTable();
+                    cleanFields();
+                    views.btn_register_category.setEnabled(true);
+                    listAllCategories();
+                    JOptionPane.showMessageDialog(null, "category successfully deleted");
+
+                }
+            }
+        }else if(e.getSource() == views.btn_cancel_category){
+            cleanFields();
+            views.btn_register_category.setEnabled(true);
         }
     }
-
     //list category
+
     public void listAllCategories() {
         if (rol.equals("Admin")) {
             List<Categories> list = categoryDao.listCategoriesQuery(views.txt_search_category.getText());
@@ -114,6 +142,17 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
             views.txt_category_id.setText(views.categories_table.getValueAt(row, 0).toString());
             views.txt_category_name.setText(views.categories_table.getValueAt(row, 1).toString());
             views.btn_register_category.setEnabled(false);
+        }else if(e.getSource() == views.jLabelCategories){
+            if(rol.equals("Admin")){
+                views.jTabbedPane1.setSelectedIndex(6);
+                cleanTable();
+                cleanFields();
+                listAllCategories();
+            }else {
+                views.jTabbedPane1.setEnabledAt(6, false);
+                views.jLabelCategories.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "You do not have permission to access this view");
+            }
         }
     }
 
@@ -165,11 +204,11 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
             i = i - 1;
         }
     }
-    
-    public void cleanFields(){
+
+    public void cleanFields() {
         views.txt_category_id.setText("");
         views.txt_category_name.setText("");
-        
+
     }
 
 }

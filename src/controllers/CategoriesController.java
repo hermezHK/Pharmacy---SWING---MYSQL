@@ -83,6 +83,7 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
                         cleanFields();
                         views.btn_register_category.setEnabled(true);
                         listAllCategories();
+                        JOptionPane.showMessageDialog(null, "successfully updated category");
                     }
                 }
             }

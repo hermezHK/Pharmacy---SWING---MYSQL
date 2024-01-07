@@ -39,6 +39,9 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
         //button register product
         this.views.btn_register_product.addActionListener(this);
 
+        //button update product
+        this.views.btn_update_product.addActionListener(this);
+
         //label listening
         this.views.products_table.addMouseListener(this);
         this.views.txt_search_product.addKeyListener(this);
@@ -64,13 +67,45 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
                 product.setCategory_id(category_id.getId());
 
                 if (productDao.registerProductQuery(product)) {
-                    
+
                     cleanTable();
+                    cleanFields();
                     listAllProducts();
-                    
+
                     JOptionPane.showMessageDialog(null, "successfully registered product");
                 } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while registering the product");
+                }
+            }
+        } else if (e.getSource() == views.btn_update_product) {
+            if (views.txt_product_code.getText().equals("")
+                    || views.txt_product_name.getText().equals("")
+                    || views.txt_product_description.getText().equals("")
+                    || views.txt_product_unit_price.getText().equals("")
+                    || views.cmb_product_category.getSelectedItem().toString().equals("")) {
+
+                JOptionPane.showMessageDialog(null, "All fields are required");
+            } else {
+                product.setCode(Integer.parseInt(views.txt_product_code.getText()));
+                product.setName(views.txt_product_name.getText().trim());
+                product.setDescription(views.txt_product_description.getText().trim());
+                product.setUnit_price(Double.parseDouble(views.txt_product_unit_price.getText()));
+                
+                //get id category
+                DynamicComboBox category_id = (DynamicComboBox) views.cmb_product_category.getSelectedItem();
+                product.setCategory_id(category_id.getId());
+                
+                //pass id to method
+                product.setId(Integer.parseInt(views.txt_product_id.getText()));
+                
+                if(productDao.updateProductQuery(product)){
+                    
+                    cleanTable();
+                    cleanFields();
+                    listAllProducts();
+                    JOptionPane.showMessageDialog(null, "product data modified successfully");
+                }else {
+                    JOptionPane.showMessageDialog(null, "An error occurred while changing data the product");
                 }
             }
         }
@@ -171,6 +206,14 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
             model.removeRow(i);
             i = i - 1;
         }
+    }
+    
+    public void cleanFields(){
+        views.txt_product_id.setText("");
+        views.txt_product_code.setText("");
+        views.txt_product_name.setText("");
+        views.txt_product_description.setText("");
+        views.txt_product_unit_price.setText("");
     }
 
 }

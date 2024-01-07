@@ -42,9 +42,16 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
         //button update product
         this.views.btn_update_product.addActionListener(this);
 
+        //button delete product
+        this.views.btn_delete_product.addActionListener(this);
+
+        //button cancel
+        this.views.btn_cancel_product.addActionListener(this);
+
         //label listening
         this.views.products_table.addMouseListener(this);
         this.views.txt_search_product.addKeyListener(this);
+        this.views.jLabelProducts.addMouseListener(this);
     }
 
     @Override
@@ -90,26 +97,49 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
                 product.setName(views.txt_product_name.getText().trim());
                 product.setDescription(views.txt_product_description.getText().trim());
                 product.setUnit_price(Double.parseDouble(views.txt_product_unit_price.getText()));
-                
+
                 //get id category
                 DynamicComboBox category_id = (DynamicComboBox) views.cmb_product_category.getSelectedItem();
                 product.setCategory_id(category_id.getId());
-                
+
                 //pass id to method
                 product.setId(Integer.parseInt(views.txt_product_id.getText()));
-                
-                if(productDao.updateProductQuery(product)){
-                    
+
+                if (productDao.updateProductQuery(product)) {
+
                     cleanTable();
                     cleanFields();
                     listAllProducts();
                     JOptionPane.showMessageDialog(null, "product data modified successfully");
-                }else {
+                } else {
                     JOptionPane.showMessageDialog(null, "An error occurred while changing data the product");
                 }
             }
+        } else if (e.getSource() == views.btn_delete_product) {
+            int row = views.products_table.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "select a product to delete");
+            } else {
+                int id = Integer.parseInt(views.products_table.getValueAt(row, 0).toString());
+                int question = JOptionPane.showConfirmDialog(null, "Are you sure to eliminate the product?");
+
+                if (question == 0 && productDao.deleteProductQuery(id) != false) {
+                    cleanTable();
+                    cleanFields();
+
+                    views.btn_register_product.setEnabled(true);
+
+                    listAllProducts();
+
+                    JOptionPane.showMessageDialog(null, "product successfully deleted");
+
+                }
+            }
+        }else if(e.getSource() == views.btn_cancel_product){
+            cleanFields();
+            views.btn_register_product.setEnabled(true);
         }
-    }
+    }   
 
     //list product
     public void listAllProducts() {
@@ -158,6 +188,14 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
             views.cmb_product_category.setSelectedItem(new DynamicComboBox(product.getCategory_id(), product.getCategory_name()));
             //disables
             views.btn_register_product.setEnabled(false);
+        }else if(e.getSource() == views.jLabelProducts){
+           views.jTabbedPane1.setSelectedIndex(0);
+           //clean table
+           cleanTable();
+           //clean fields
+           cleanFields();
+           //list product
+           listAllProducts();
         }
     }
 
@@ -207,8 +245,8 @@ public class ProductsController implements ActionListener, MouseListener, KeyLis
             i = i - 1;
         }
     }
-    
-    public void cleanFields(){
+
+    public void cleanFields() {
         views.txt_product_id.setText("");
         views.txt_product_code.setText("");
         views.txt_product_name.setText("");

@@ -79,6 +79,7 @@ public class SystemView extends javax.swing.JFrame {
         
         //controller product
         ProductsController product_section = new ProductsController(product, productDao, this);
+        product_section.listAllProducts();
         
         
     }
@@ -2057,7 +2058,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JTextField txt_search_category;
     public javax.swing.JTextField txt_search_customer;
     public javax.swing.JTextField txt_search_employee;
-    private javax.swing.JTextField txt_search_product;
+    public javax.swing.JTextField txt_search_product;
     public javax.swing.JTextField txt_search_supplier;
     public javax.swing.JTextField txt_supplier_address;
     public javax.swing.JTextField txt_supplier_description;

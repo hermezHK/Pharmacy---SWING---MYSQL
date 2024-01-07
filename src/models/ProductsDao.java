@@ -56,8 +56,7 @@ public class ProductsDao {
     public List listProductsQuery(String value) {
         List<Products> list_products = new ArrayList();
         String query = "SELECT pro.*, ca.name AS category_name FROM products pro, categories ca WHERE pro.category_id = ca.id";
-        String query_search_product = "SELECT pro.*, ca.name AS category_name FROM products pro INNER JOIN categories ca"
-                + "ON pro.category_id = ca.id WHERE pro.name LIKE '%" + value + "%'";
+        String query_search_product = "SELECT pro.*, ca.name AS category_name FROM products pro INNER JOIN categories ca ON pro.category_id = ca.id WHERE pro.name LIKE '%" + value + "%'";
 
         try {
             conn = cn.getConnection();

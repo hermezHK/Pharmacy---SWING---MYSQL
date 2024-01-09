@@ -8,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.DynamicComboBox;
@@ -24,7 +27,7 @@ import views.SystemView;
  *
  * @author akira
  */
-public class PurchasesController implements KeyListener, ActionListener {
+public class PurchasesController implements KeyListener, ActionListener, MouseListener {
 
     private Purchases purchase;
     private PurchasesDao purchaseDao;
@@ -47,17 +50,18 @@ public class PurchasesController implements KeyListener, ActionListener {
 
         //button add
         this.views.btn_add_product_to_buy.addActionListener(this);
-        
+
         //button buy
         this.views.btn_confirm_purchase.addActionListener(this);
-        
+
         //button delete buy
         this.views.btn_remove_purchase.addActionListener(this);
-        
-        
+
         this.views.txt_purchase_product_code.addKeyListener(this);
         this.views.txt_purchase_price.addKeyListener(this);
         this.views.btn_new_purchase.addActionListener(this);
+        this.views.jLabelPurchases.addMouseListener(this);
+        this.views.jLabelReports.addMouseListener(this);
     }
 
     //ActionListener
@@ -116,14 +120,14 @@ public class PurchasesController implements KeyListener, ActionListener {
 
                 }
             }
-        }else if(e.getSource() == views.btn_confirm_purchase){
+        } else if (e.getSource() == views.btn_confirm_purchase) {
             insertPurchase();
-        }else if(e.getSource() == views.btn_remove_purchase){
+        } else if (e.getSource() == views.btn_remove_purchase) {
             model = (DefaultTableModel) views.purchases_table.getModel();
             model.removeRow(views.purchases_table.getSelectedRow());
             calculatePurchase();
             views.txt_purchase_product_code.requestFocus();
-        }else if(e.getSource() == views.btn_new_purchase){
+        } else if (e.getSource() == views.btn_new_purchase) {
             cleanTableTemp();
             cleanFieldsPurchases();
         }
@@ -143,17 +147,34 @@ public class PurchasesController implements KeyListener, ActionListener {
 
                 //record purchase details
                 purchaseDao.registerPurchaseDetailQuery(purchase_id, purchase_price, purchase_amount, purchase_subtotal, product_id);
-                
+
                 //get the quantity of products
                 product = productDao.searchId(product_id);
                 int amount = product.getProduct_quantity() + purchase_amount;
-                
+
                 productDao.updateStockQuery(amount, product_id);
-                
+
             }
             cleanTableTemp();
             JOptionPane.showMessageDialog(null, "purchase generated successfully");
             cleanFieldsPurchases();
+        }
+    }
+
+    //method to list purchases made
+    public void listAllPurchases() {
+        if (rol.equals("Admin") || rol.equals("Assistant")) {
+            List<Purchases> list = purchaseDao.listAllPurchasesQuery();
+            model = (DefaultTableModel) views.table_all_purchases.getModel();
+            Object[] row = new Object[4];
+            for (int i = 0; i < list.size(); i++) {
+                row[0] = list.get(i).getId();
+                row[1] = list.get(i).getSupplier_name_product();
+                row[2] = list.get(i).getTotal();
+                row[3] = list.get(i).getCreated();
+                model.addRow(row);
+            }
+            views.table_all_purchases.setModel(model);
         }
     }
 
@@ -220,11 +241,58 @@ public class PurchasesController implements KeyListener, ActionListener {
         }
         views.txt_purchase_total_to_pay.setText("" + total);
     }
-    
+
     //clean table temporary
-    public void cleanTableTemp(){
-        for(int i = 0; i < temp.getRowCount(); i++){
+    public void cleanTableTemp() {
+        for (int i = 0; i < temp.getRowCount(); i++) {
             temp.removeRow(i);
+            i = i - 1;
+        }
+    }
+
+    //MouseListener
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == views.jLabelPurchases) {
+            if (rol.equals("Admin")) {
+                views.jTabbedPane1.setSelectedIndex(1);
+                cleanTable();
+            } else {
+                views.jTabbedPane1.setEnabledAt(1, false);
+                views.jLabelPurchases.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "You do not have permission admin to access this view");
+            }
+        } else if (e.getSource() == views.jLabelReports) {
+            views.jTabbedPane1.setSelectedIndex(8);
+            cleanTable();
+            listAllPurchases();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    //cleantable
+    public void cleanTable() {
+        for (int i = 0; i < model.getRowCount(); i++) {
+            model.removeRow(i);
             i = i - 1;
         }
     }

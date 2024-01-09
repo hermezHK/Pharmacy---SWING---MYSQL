@@ -2029,7 +2029,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JTable purchases_table;
     public javax.swing.JTable sales_table;
     public javax.swing.JTable suppliers_table;
-    private javax.swing.JTable table_all_purchases;
+    public javax.swing.JTable table_all_purchases;
     public javax.swing.JTable table_all_sales;
     public javax.swing.JTextField txt_address_profile;
     public javax.swing.JTextField txt_category_id;

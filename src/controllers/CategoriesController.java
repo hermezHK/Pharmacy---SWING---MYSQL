@@ -46,7 +46,7 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
 
         //button delete category 
         this.views.btn_delete_category.addActionListener(this);
-        
+
         //button cancel
         this.views.btn_cancel_category.addActionListener(this);
 
@@ -116,7 +116,7 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
 
                 }
             }
-        }else if(e.getSource() == views.btn_cancel_category){
+        } else if (e.getSource() == views.btn_cancel_category) {
             cleanFields();
             views.btn_register_category.setEnabled(true);
         }
@@ -146,13 +146,13 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
             views.txt_category_id.setText(views.categories_table.getValueAt(row, 0).toString());
             views.txt_category_name.setText(views.categories_table.getValueAt(row, 1).toString());
             views.btn_register_category.setEnabled(false);
-        }else if(e.getSource() == views.jLabelCategories){
-            if(rol.equals("Admin")){
+        } else if (e.getSource() == views.jLabelCategories) {
+            if (rol.equals("Admin")) {
                 views.jTabbedPane1.setSelectedIndex(6);
                 cleanTable();
                 cleanFields();
                 listAllCategories();
-            }else {
+            } else {
                 views.jTabbedPane1.setEnabledAt(6, false);
                 views.jLabelCategories.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "You do not have permission to access this view");
@@ -214,11 +214,11 @@ public class CategoriesController implements ActionListener, MouseListener, KeyL
         views.txt_category_name.setText("");
 
     }
-    
+
     //method to display the name of the categories
-    public void getCategoryName(){
+    public void getCategoryName() {
         List<Categories> list = categoryDao.listCategoriesQuery(views.txt_search_category.getText());
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             int id = list.get(i).getId();
             String name = list.get(i).getName();
             views.cmb_product_category.addItem(new DynamicComboBox(id, name));

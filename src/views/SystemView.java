@@ -171,7 +171,7 @@ public class SystemView extends javax.swing.JFrame {
         txt_purchase_product_code = new javax.swing.JTextField();
         txt_purchase_product_name = new javax.swing.JTextField();
         txt_purchase_amount = new javax.swing.JTextField();
-        cmb_purchase_supplier = new javax.swing.JComboBox<>();
+        cmb_purchase_supplier = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -1394,6 +1394,11 @@ public class SystemView extends javax.swing.JFrame {
         jLabel37.setText("Description:");
 
         cmb_supplier_city.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lima", "Arequipa", "Cuzco", "Trujillo" }));
+        cmb_supplier_city.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmb_supplier_cityActionPerformed(evt);
+            }
+        });
 
         jLabel38.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel38.setText("City:");
@@ -1827,6 +1832,10 @@ public class SystemView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_logoutActionPerformed
 
+    private void cmb_supplier_cityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_supplier_cityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_supplier_cityActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1897,7 +1906,7 @@ public class SystemView extends javax.swing.JFrame {
     public javax.swing.JButton btn_update_supplier;
     public javax.swing.JTable categories_table;
     public javax.swing.JComboBox<Object> cmb_product_category;
-    public javax.swing.JComboBox<String> cmb_purchase_supplier;
+    public javax.swing.JComboBox cmb_purchase_supplier;
     public javax.swing.JComboBox<String> cmb_rol;
     public javax.swing.JComboBox<String> cmb_supplier_city;
     public javax.swing.JTable customers_table;

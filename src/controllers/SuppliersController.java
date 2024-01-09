@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import models.DynamicComboBox;
 import static models.EmployeesDao.rol_user;
 import models.Suppliers;
 import models.SuppliersDao;
@@ -41,10 +42,10 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
 
         //button modify supplier
         this.views.btn_update_supplier.addActionListener(this);
-        
+
         //button delete supplier
         this.views.btn_delete_supplier.addActionListener(this);
-        
+
         //button cancel supplier
         this.views.btn_cancel_supplier.addActionListener(this);
 
@@ -52,6 +53,7 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
         this.views.suppliers_table.addMouseListener(this);
         this.views.txt_search_supplier.addKeyListener(this);
         this.views.jLabelSuppliers.addMouseListener(this);
+        getSupplierName();
     }
 
     @Override
@@ -124,27 +126,26 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
                     }
                 }
             }
-        }else if(e.getSource() == views.btn_delete_supplier){
+        } else if (e.getSource() == views.btn_delete_supplier) {
             int row = views.suppliers_table.getSelectedRow();
-            if(row == -1){
+            if (row == -1) {
                 JOptionPane.showMessageDialog(null, "select an supplier to delete");
-            }else {
+            } else {
                 int id = Integer.parseInt(views.suppliers_table.getValueAt(row, 0).toString());
                 int question = JOptionPane.showConfirmDialog(null, "Are you sure to eliminate the supplier?");
-                if(question == 0 && supplierDao.deleteSupplierQuery(id) != false){
-                    
+                if (question == 0 && supplierDao.deleteSupplierQuery(id) != false) {
+
                     //clean table
                     cleanTable();
                     //clean fields
                     cleanFields();
                     //list supplier
                     listAllSupplier();
-                    
-                    
+
                     JOptionPane.showMessageDialog(null, "supplier successfully deleted");
                 }
             }
-        }else if(e.getSource() == views.btn_cancel_supplier){
+        } else if (e.getSource() == views.btn_cancel_supplier) {
             cleanFields();
             views.btn_register_supplier.setEnabled(true);
         }
@@ -185,19 +186,19 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
             //disable button
             views.btn_register_supplier.setEnabled(false);
             views.txt_supplier_id.setEditable(false);
-            
-        }else if(e.getSource() == views.jLabelSuppliers){
-            if(rol.equals("Admin")){
-               views.jTabbedPane1.setSelectedIndex(5);
-               
-               //clean table
-               cleanTable();
-               //clean fields
-               cleanFields();
-               //list supplier
-               listAllSupplier();
-               
-            }else {
+
+        } else if (e.getSource() == views.jLabelSuppliers) {
+            if (rol.equals("Admin")) {
+                views.jTabbedPane1.setSelectedIndex(5);
+
+                //clean table
+                cleanTable();
+                //clean fields
+                cleanFields();
+                //list supplier
+                listAllSupplier();
+
+            } else {
                 views.jTabbedPane1.setEnabledAt(5, false);
                 views.jLabelSuppliers.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "You do not have permission to access this view");
@@ -267,5 +268,15 @@ public class SuppliersController implements ActionListener, MouseListener, KeyLi
         views.txt_supplier_telephone.setText("");
         views.txt_supplier_email.setText("");
         views.cmb_supplier_city.setSelectedIndex(0);
+    }
+
+    //method to display the name of the supplier
+    public void getSupplierName() {
+        List<Suppliers> list = supplierDao.listSuppliersQuery(views.txt_search_supplier.getText());
+        for (int i = 0; i < list.size(); i++) {
+            int id = list.get(i).getId();
+            String name = list.get(i).getName();
+            views.cmb_purchase_supplier.addItem(new DynamicComboBox(id, name));
+        } 
     }
 }

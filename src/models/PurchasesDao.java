@@ -139,7 +139,7 @@ public class PurchasesDao {
                 purchase.setProduct_name(rs.getString("product_name"));
                 purchase.setPurchase_amount(rs.getInt("purchase_amount"));
                 purchase.setPurchase_price(rs.getDouble("purchase_price"));
-                purchase.setPurchase_subtotal(rs.getDouble("purchases_subtotal"));
+                purchase.setPurchase_subtotal(rs.getDouble("purchase_subtotal"));
                 purchase.setSupplier_name_product(rs.getString("supplier_name"));
                 purchase.setCreated(rs.getString("created"));
                 purchase.setPurcharser(rs.getString("full_name"));

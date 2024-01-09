@@ -4,18 +4,66 @@
  */
 package views;
 
+import java.awt.Graphics;
+import java.awt.PrintJob;
+import java.awt.Toolkit;
+import java.util.List;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import models.Purchases;
+import models.PurchasesDao;
+
 /**
  *
  * @author akira
  */
 public class Print extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Print
-     */
-    public Print() {
+    Purchases purchase = new Purchases();
+    PurchasesDao purchaseDao = new PurchasesDao();
+    DefaultTableModel model = new DefaultTableModel();
+
+    public Print(int id) {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setTitle("Invoice");
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        txt_invoice.setText("" + id);
+        listAllPurchasesDetails(id);
+        calculatePurchase();
     }
+
+    public void listAllPurchasesDetails(int id) {
+        List<Purchases> list = purchaseDao.listPurchaseDetailQuery(id);
+        model = (DefaultTableModel) purchase_details_table.getModel();
+        Object[] row = new Object[7];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getProduct_name();
+            row[1] = list.get(i).getPurchase_amount();
+            row[2] = list.get(i).getPurchase_price();
+            row[3] = list.get(i).getPurchase_subtotal();
+            row[4] = list.get(i).getSupplier_name_product();
+            row[5] = list.get(i).getPurcharser();
+            row[6] = list.get(i).getCreated();
+            model.addRow(row);
+        }
+        purchase_details_table.setModel(model);
+    }
+
+    //calculate total to pay
+    public void calculatePurchase() {
+        double total = 0.00;
+        int numRow = purchase_details_table.getRowCount();
+
+        for (int i = 0; i < numRow; i++) {
+            //obtain the index of the column to be added
+            total = total + Double.parseDouble(String.valueOf(purchase_details_table.getValueAt(i, 3)));
+        }
+        txt_total.setText("" + total);
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,14 +154,19 @@ public class Print extends javax.swing.JFrame {
         jLabel4.setText("Total:");
         form_print.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, -1, -1));
 
-        txt_total.setForeground(new java.awt.Color(255, 255, 255));
+        txt_total.setForeground(new java.awt.Color(0, 0, 0));
         form_print.add(txt_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 420, 120, 30));
 
         getContentPane().add(form_print, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 520));
 
         btn_print_purchase.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_print_purchase.setText("PRINT");
-        getContentPane().add(btn_print_purchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 530, 100, -1));
+        btn_print_purchase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_print_purchaseActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_print_purchase, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 520, 100, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -122,43 +175,25 @@ public class Print extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_invoiceActionPerformed
 
+    private void btn_print_purchaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_print_purchaseActionPerformed
+        Toolkit tk = form_print.getToolkit();
+        PrintJob pj = tk.getPrintJob(this, null, null);
+        Graphics graphics = pj.getGraphics();
+        form_print.print(graphics);
+        graphics.dispose();
+        pj.end();
+        
+    }//GEN-LAST:event_btn_print_purchaseActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Print.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Print.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Print.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Print.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Print().setVisible(true);
-            }
-        });
+      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_print_purchase;
+    public javax.swing.JButton btn_print_purchase;
     private javax.swing.JPanel form_print;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -167,8 +202,8 @@ public class Print extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable purchase_details_table;
+    public javax.swing.JTable purchase_details_table;
     private javax.swing.JTextField txt_invoice;
-    private javax.swing.JTextField txt_total;
+    public javax.swing.JTextField txt_total;
     // End of variables declaration//GEN-END:variables
 }

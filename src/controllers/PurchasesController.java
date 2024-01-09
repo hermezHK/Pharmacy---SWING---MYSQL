@@ -57,6 +57,7 @@ public class PurchasesController implements KeyListener, ActionListener {
         
         this.views.txt_purchase_product_code.addKeyListener(this);
         this.views.txt_purchase_price.addKeyListener(this);
+        this.views.btn_new_purchase.addActionListener(this);
     }
 
     //ActionListener
@@ -122,6 +123,9 @@ public class PurchasesController implements KeyListener, ActionListener {
             model.removeRow(views.purchases_table.getSelectedRow());
             calculatePurchase();
             views.txt_purchase_product_code.requestFocus();
+        }else if(e.getSource() == views.btn_new_purchase){
+            cleanTableTemp();
+            cleanFieldsPurchases();
         }
     }
 
@@ -139,6 +143,13 @@ public class PurchasesController implements KeyListener, ActionListener {
 
                 //record purchase details
                 purchaseDao.registerPurchaseDetailQuery(purchase_id, purchase_price, purchase_amount, purchase_subtotal, product_id);
+                
+                //get the quantity of products
+                product = productDao.searchId(product_id);
+                int amount = product.getProduct_quantity() + purchase_amount;
+                
+                productDao.updateStockQuery(amount, product_id);
+                
             }
             cleanTableTemp();
             JOptionPane.showMessageDialog(null, "purchase generated successfully");

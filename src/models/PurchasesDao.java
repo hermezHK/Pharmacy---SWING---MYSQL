@@ -44,7 +44,7 @@ public class PurchasesDao {
             return true;
 
         } catch (SQLException e) {
-            JOptionPane.showInternalMessageDialog(null, "error when inserting the purchase");
+            JOptionPane.showInternalMessageDialog(null, "error when inserting the purchase" + e);
             return false;
         }
     }
@@ -54,7 +54,7 @@ public class PurchasesDao {
             double purchase_subtotal, int product_id) {
 
         String query = "INSERT INTO purchase_details (purchase_id, purchase_price, purchase_amount,"
-                + "purchase_subtotal, purchase_date, product_id) VALUES (?,?,?,?,?,?)";
+                + "purchase_subtotal, product_id) VALUES (?,?,?,?,?)";
 
         Timestamp datetime = new Timestamp(new Date().getTime());
 
@@ -65,13 +65,12 @@ public class PurchasesDao {
             pst.setDouble(2, purchase_price);
             pst.setInt(3, purchase_amount);
             pst.setDouble(4, purchase_subtotal);
-            pst.setTimestamp(5, datetime);
-            pst.setInt(6, product_id);
+            pst.setInt(5, product_id);
             pst.execute();
             return true;
 
         } catch (SQLException e) {
-            JOptionPane.showInternalMessageDialog(null, "error when recording purchase details");
+            JOptionPane.showInternalMessageDialog(null, "error when recording purchase details" + e);
             return false;
         }
     }

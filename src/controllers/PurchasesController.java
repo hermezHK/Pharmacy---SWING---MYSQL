@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.DynamicComboBox;
+import static models.EmployeesDao.id_user;
 import static models.EmployeesDao.rol_user;
 import models.Products;
 import models.ProductsDao;
@@ -44,8 +45,16 @@ public class PurchasesController implements KeyListener, ActionListener {
         this.purchaseDao = purchaseDao;
         this.views = views;
 
-        //label listening
+        //button add
         this.views.btn_add_product_to_buy.addActionListener(this);
+        
+        //button buy
+        this.views.btn_confirm_purchase.addActionListener(this);
+        
+        //button delete buy
+        this.views.btn_remove_purchase.addActionListener(this);
+        
+        
         this.views.txt_purchase_product_code.addKeyListener(this);
         this.views.txt_purchase_price.addKeyListener(this);
     }
@@ -106,6 +115,34 @@ public class PurchasesController implements KeyListener, ActionListener {
 
                 }
             }
+        }else if(e.getSource() == views.btn_confirm_purchase){
+            insertPurchase();
+        }else if(e.getSource() == views.btn_remove_purchase){
+            model = (DefaultTableModel) views.purchases_table.getModel();
+            model.removeRow(views.purchases_table.getSelectedRow());
+            calculatePurchase();
+            views.txt_purchase_product_code.requestFocus();
+        }
+    }
+
+    private void insertPurchase() {
+        double total = Double.parseDouble(views.txt_purchase_total_to_pay.getText());
+        int employee_id = id_user;
+
+        if (purchaseDao.registerPurchaseQuery(getIdSupplier, employee_id, total)) {
+            int purchase_id = purchaseDao.purchaseId();
+            for (int i = 0; i < views.purchases_table.getRowCount(); i++) {
+                int product_id = Integer.parseInt(views.purchases_table.getValueAt(i, 0).toString());
+                int purchase_amount = Integer.parseInt(views.purchases_table.getValueAt(i, 2).toString());
+                double purchase_price = Double.parseDouble(views.purchases_table.getValueAt(i, 3).toString());
+                double purchase_subtotal = purchase_price * purchase_amount;
+
+                //record purchase details
+                purchaseDao.registerPurchaseDetailQuery(purchase_id, purchase_price, purchase_amount, purchase_subtotal, product_id);
+            }
+            cleanTableTemp();
+            JOptionPane.showMessageDialog(null, "purchase generated successfully");
+            cleanFieldsPurchases();
         }
     }
 
@@ -149,9 +186,9 @@ public class PurchasesController implements KeyListener, ActionListener {
             }
         }
     }
-    
+
     //clean fields
-    public void cleanFieldsPurchases(){
+    public void cleanFieldsPurchases() {
         views.txt_purchase_product_name.setText("");
         views.txt_purchase_price.setText("");
         views.txt_purchase_amount.setText("");
@@ -160,18 +197,25 @@ public class PurchasesController implements KeyListener, ActionListener {
         views.txt_purchase_id.setText("");
         views.txt_purchase_total_to_pay.setText("");
     }
-    
+
     //calculate total to pay
-    public void calculatePurchase(){
+    public void calculatePurchase() {
         double total = 0.00;
         int numRow = views.purchases_table.getRowCount();
-        
-        for(int i = 0; i < numRow; i++){
+
+        for (int i = 0; i < numRow; i++) {
             //obtain the index of the column to be added
             total = total + Double.parseDouble(String.valueOf(views.purchases_table.getValueAt(i, 4)));
         }
         views.txt_purchase_total_to_pay.setText("" + total);
     }
     
+    //clean table temporary
+    public void cleanTableTemp(){
+        for(int i = 0; i < temp.getRowCount(); i++){
+            temp.removeRow(i);
+            i = i - 1;
+        }
+    }
 
 }
